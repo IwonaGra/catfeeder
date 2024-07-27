@@ -9,7 +9,7 @@ import { Provider } from "react-redux"; //tutaj importuję providera, który dos
 import { store } from "./store"; // tutaj importuję store
 import { ThemeProvider } from "@mui/material"; // tutaj importuję theme providera z mui
 import CssBaseline from "@mui/material/CssBaseline"; // tutaj importuję podstawowe style dla aplikacji
-import { Dashboard } from "./components/Dashboard"; // tutaj importuję komponent tablicy "Dashboard"
+import Dashboard from "./components/Dashboard"; // tutaj importuję komponent tablicy "Dashboard"
 import SignIn from "./components/User/SignIn"; // tutaj importuję komponent logowania
 import SignUp from "./components/User/SignUp"; // tutaj importuję komponent rejestracji
 import CatDetail from "./components/Cat/CatDetail"; // tutaj importuję komponent info o kocie
