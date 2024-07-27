@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todosReducer from "../features/todos/todosSlice";
-import filtersReducer from "../features/filters/filtersSlice";
+import authReducer from "./features/authSlice";
+import catReducer from "./features/catSlice";
+import feedingReducer from "./features/feedingSlice";
 
 export const store = configureStore({
 	reducer: {
-		todos: todosReducer,
-		filters: filtersReducer,
+		auth: authReducer, // autoryzacja
+		cats: catReducer, // koty
+		feedings: feedingReducer, // karmienie
 	},
 });
 
