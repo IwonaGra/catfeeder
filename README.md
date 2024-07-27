@@ -1,8 +1,17 @@
-# React + Vite
+# Catfeeder - Monitor Your Cat Diet - React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my concept React application, which helps people to monitor their cats diet.
 
-Currently, two official plugins are available:
+In development version, i'm planning to add basic functionalities, listed as below:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Changelog:
+
+ver: 0.0.1
+
+- Added registration of users (SignUp)
+- Added authorization of users (SignIn)
+- Added possibility to add cats which will be assigned to users
+- Added basic informations about cats with calories daily diet limit
+- Added possibility to modify basic info about cats
+- Added feeding posts for cats
+- Added feeding history for cats (list of posts)
