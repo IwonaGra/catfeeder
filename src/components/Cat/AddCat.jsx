@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCat, clearError } from "../../features/catSlice";
-import { Box, Snackbar } from "@mui/material";
+import { Box, Snackbar, TextField, Button, Typography } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AddCat = () => {
 	const [name, setName] = useState("");
@@ -15,6 +19,15 @@ const AddCat = () => {
 
 	const dispatch = useDispatch(); //akcje redux
 	const error = useSelector((state) => state.cats.error);
+
+	useEffect(() => {
+		if (error) {
+			setSnackbarMessage(error);
+			setSnackbarSeverity("error");
+			setOpenSnackbar(true);
+			dispatch(clearError());
+		}
+	}, [error, dispatch]);
 
 	const handleAddCat = async (e) => {
 		e.preventDefault();
@@ -42,14 +55,76 @@ const AddCat = () => {
 			}
 		} catch (error) {
 			console.error("Error adding cat:", error);
-			setSnackbarMessage(error.message || "Failed to add cat");
+			setSnackbarMessage("Failed to add cat");
 			setSnackbarSeverity("error");
 			setOpenSnackbar(true);
-			dispatch(clearError());
 		}
 	};
 
-	return <Box component="form" onSubmit={handleAddCat}></Box>;
+	const handleCloseSnackbar = () => setOpenSnackbar(false);
+
+	return (
+		<Box component="form" onSubmit={handleAddCat}>
+			<Typography variant="h5" gutterBottom>
+				Add New Cat
+			</Typography>
+			<TextField
+				fullWidth
+				label="Name"
+				value={name}
+				onChange={(e) => setName(e.target.value)}
+				margin="normal"
+				required
+			/>
+			<TextField
+				fullWidth
+				label="Age"
+				type="number"
+				value={age}
+				onChange={(e) => setAge(e.target.value)}
+				margin="normal"
+				required
+			/>
+			<TextField
+				fullWidth
+				label="Age"
+				type="number"
+				value={age}
+				onChange={(e) => setAge(e.target.value)}
+				margin="normal"
+				required
+			/>
+			<TextField
+				fullWidth
+				label="Caloric Needs"
+				type="number"
+				value={caloricNeeds}
+				onChange={(e) => setCaloricNeeds(e.target.value)}
+				margin="normal"
+				required
+			/>
+			<TextField
+				fullWidth
+				label="Photo URL"
+				value={photoUrl}
+				onChange={(e) => setPhotoUrl(e.target.value)}
+				margin="normal"
+				required
+			/>
+			<Button type="submit" variant="contained" sx={{ mt: 2 }}>
+				Add Cat
+			</Button>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={6000}
+				onClose={handleCloseSnackbar}
+			>
+				<Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+					{snackbarMessage}
+				</Alert>
+			</Snackbar>
+		</Box>
+	);
 };
 
 export default AddCat;
