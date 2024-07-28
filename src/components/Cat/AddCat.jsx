@@ -24,6 +24,7 @@ const AddCat = () => {
 	const [caloricNeeds, setCaloricNeeds] = useState("");
 	const [photoUrl, setPhotoUrl] = useState("");
 	const [breed, setBreed] = useState("");
+	const [gender, setGender] = useState("");
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("error");
@@ -136,6 +137,7 @@ const AddCat = () => {
 			calories_need: parseInt(caloricNeeds),
 			photo_url: photoUrl,
 			breed,
+			gender,
 		};
 
 		try {
@@ -150,6 +152,8 @@ const AddCat = () => {
 				setAge("");
 				setCaloricNeeds("");
 				setPhotoUrl("");
+				setBreed("");
+				setGender("");
 			} else {
 				throw new Error(addCatResult.error.message);
 			}
@@ -197,6 +201,20 @@ const AddCat = () => {
 				required
 				inputProps={{ min: 0, max: 100 }}
 			/>
+			<FormControl fullWidth margin="normal">
+				<InputLabel id="gender-select-label">Gender</InputLabel>
+				<Select
+					labelId="gender-select-label"
+					id="gender-select"
+					value={gender}
+					label="Gender"
+					onChange={(e) => setGender(e.target.value)}
+					required
+				>
+					<MenuItem value="she">She</MenuItem>
+					<MenuItem value="he">He</MenuItem>
+				</Select>
+			</FormControl>
 			<FormControl fullWidth margin="normal">
 				<InputLabel id="breed-select-label">Breed</InputLabel>
 				<Select
