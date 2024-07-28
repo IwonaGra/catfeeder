@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { uploadPhotoToServer } from "../../utils/uploadPhoto";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -139,7 +140,16 @@ const AddCat = () => {
 		let photoUrlToSave = photoUrl;
 
 		if (photoFile) {
-			console.log(`nie wiem póki co`);
+			try {
+				const uploadedPhotoUrl = await uploadPhotoToServer(photoFile);
+				photoUrlToSave = uploadedPhotoUrl;
+			} catch (error) {
+				console.error("Error uploading photo:", error);
+				setSnackbarMessage("Failed to upload photo");
+				setSnackbarSeverity("error");
+				setOpenSnackbar(true);
+				return;
+			}
 		}
 
 		const newCat = {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCats } from "../features/catSlice";
 import {
@@ -11,9 +12,11 @@ import {
 	CardActions,
 	CircularProgress,
 	Container,
+	Avatar,
 	// LinearProgress,
 } from "@mui/material";
 import AddCat from "./Cat/AddCat";
+
 // import CatDetails from "./Cat/CatDetail";
 
 const Dashboard = () => {
@@ -60,24 +63,29 @@ const Dashboard = () => {
 				{showAddCatForm && <AddCat onAddSuccess={handleAddCatSuccess} />}
 
 				{Array.isArray(cats) && cats.length > 0 ? (
-					<Grid container spacing={2}>
+					<Grid container spacing={3}>
 						{cats.map((cat) => (
 							<Grid item xs={12} sm={6} md={4} key={cat.id}>
-								<Card>
+								<Card style={{ cursor: "pointer" }}>
 									<CardContent>
-										<Typography variant="h5">{cat.name}</Typography>
+										<Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+											<Avatar
+												src={cat.photo_url}
+												sx={{ width: 60, height: 60, mr: 2 }}
+											>
+												{cat.name.charAt(0)}
+											</Avatar>
+											<Typography variant="h5">{cat.name}</Typography>
+										</Box>
 										<Typography color="text.secondary">
 											Age: {cat.age}
-										</Typography>
-										<Typography color="text.secondary">
-											Breed: {cat.breed}
 										</Typography>
 										<Typography color="text.secondary">
 											Daily Caloric Needs: {cat.calories_need} kcal
 										</Typography>
 									</CardContent>
 									<CardActions>
-										{/* Tu trzeba dodać jeszcze przyciski do edycji, dodawania karmienia... */}
+										{/* Tu możesz dodać przyciski do edycji, dodawania karmienia itp. */}
 									</CardActions>
 								</Card>
 							</Grid>
