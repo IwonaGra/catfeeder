@@ -47,6 +47,24 @@ export const addCat = createAsyncThunk(
 	}
 );
 
+export const updateCat = createAsyncThunk(
+	"cats/updateCat", // funkcja aktualizacji danych kota
+	async ({ id, updatedCat }, { rejectWithValue }) => {
+		try {
+			const { data, error } = await supabase
+				.from("cats")
+				.update(updatedCat)
+				.eq("id", id)
+				.select();
+			if (error) throw error;
+			return data[0];
+		} catch (error) {
+			console.error("Error updating cat:", error); // walidacja
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 const catSlice = createSlice({
 	name: "cats",
 	initialState: { cats: [], loading: false, error: null },
@@ -78,6 +96,23 @@ const catSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(addCat.rejected, (state, action) => {
+				state.error = action.payload;
+				state.loading = false;
+			})
+			.addCase(updateCat.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(updateCat.fulfilled, (state, action) => {
+				const index = state.cats.findIndex(
+					(cat) => cat.id === action.payload.id
+				);
+				if (index !== -1) {
+					state.cats[index] = action.payload;
+				}
+				state.loading = false;
+			})
+			.addCase(updateCat.rejected, (state, action) => {
 				state.error = action.payload;
 				state.loading = false;
 			});

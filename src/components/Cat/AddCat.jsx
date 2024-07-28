@@ -85,15 +85,7 @@ const AddCat = () => {
 				margin="normal"
 				required
 			/>
-			<TextField
-				fullWidth
-				label="Age"
-				type="number"
-				value={age}
-				onChange={(e) => setAge(e.target.value)}
-				margin="normal"
-				required
-			/>
+
 			<TextField
 				fullWidth
 				label="Caloric Needs"
