@@ -9,6 +9,7 @@ import {
 	Card,
 	CardContent,
 	CardActions,
+	CircularProgress,
 	LinearProgress,
 } from "@mui/material";
 import AddCat from "./Cat/AddCat";
@@ -28,12 +29,13 @@ const Dashboard = () => {
 		dispatch(fetchCats()); // Odświeża listę kotów po dodaniu nowego
 	};
 
-	if (loading) return <Typography>Loading...</Typography>;
+	// if (loading) return <Typography>Loading...</Typography>;
+	if (loading) return <CircularProgress />;
 	if (error) return <Typography color="error">{error}</Typography>;
 
 	return (
 		<Box sx={{ flexGrow: 1, m: 2 }}>
-			<Typography variant="h4" gutterBottom>
+			<Typography variant="h4" gutterBottom sx={{ color: "primary.main" }}>
 				Your Cats Dashboard
 			</Typography>
 			<Button

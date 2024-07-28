@@ -7,8 +7,7 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux"; //tutaj importuję providera, który dostarcza redux store dla aplikacji
 import { store } from "./store"; // tutaj importuję store
-import { ThemeProvider } from "@mui/material"; // tutaj importuję theme providera z mui
-import CssBaseline from "@mui/material/CssBaseline"; // tutaj importuję podstawowe style dla aplikacji
+import { ThemeProvider, CssBaseline, Container } from "@mui/material"; // tutaj importuję podstawowe style dla aplikacji
 import Dashboard from "./components/Dashboard"; // tutaj importuję komponent tablicy "Dashboard"
 import SignIn from "./components/User/SignIn"; // tutaj importuję komponent logowania
 import SignUp from "./components/User/SignUp"; // tutaj importuję komponent rejestracji
@@ -22,7 +21,9 @@ import { theme } from "./theme"; // tutaj importuję mój theme
 const Layout = () => (
 	<>
 		<Navbar />
-		<Outlet />
+		<Container component="main" sx={{ mt: 4, mb: 4, flex: 1 }}>
+			<Outlet />
+		</Container>
 	</>
 );
 

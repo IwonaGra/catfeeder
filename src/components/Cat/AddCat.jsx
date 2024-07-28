@@ -64,8 +64,12 @@ const AddCat = () => {
 	const handleCloseSnackbar = () => setOpenSnackbar(false);
 
 	return (
-		<Box component="form" onSubmit={handleAddCat}>
-			<Typography variant="h5" gutterBottom>
+		<Box
+			component="form"
+			onSubmit={handleAddCat}
+			sx={{ "& .MuiTextField-root": { mb: 2 } }}
+		>
+			<Typography variant="h5" gutterBottom sx={{ color: "primary.main" }}>
 				Add New Cat
 			</Typography>
 			<TextField

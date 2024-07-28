@@ -55,7 +55,7 @@ const SignIn = () => {
 						gutterBottom
 						sx={{ fontWeight: "bold", color: "primary.main" }}
 					>
-						CAT FEEDER
+						Cat Feeder
 					</Typography>
 				</Box>
 				<Box component="form" onSubmit={handleSubmit}>
