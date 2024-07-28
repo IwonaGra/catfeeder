@@ -6,11 +6,11 @@ export const theme = createTheme({
 			default: "#ffffff",
 		},
 		primary: {
-			main: "#4caf50", // Zielony kolor główny
-			light: "#81c784",
+			main: "#55bde0", //  kolor główny
+			light: "#79d3f2",
 		},
 		secondary: {
-			main: "#81c784", // Jasnozielony kolor dodatkowy
+			main: "#88e8e6", // Jasny kolor dodatkowy #79d3f2
 		},
 	},
 	typography: {
@@ -27,7 +27,7 @@ export const theme = createTheme({
 					textTransform: "none",
 					color: "#ffffff",
 					"&:hover": {
-						backgroundColor: "#81c784",
+						backgroundColor: "#79d3f2",
 					},
 				},
 			},
