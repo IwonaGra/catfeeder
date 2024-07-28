@@ -92,7 +92,7 @@ const catSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(addCat.fulfilled, (state, action) => {
-				state.cats = action.payload;
+				state.cats.push(action.payload);
 				state.loading = false;
 			})
 			.addCase(addCat.rejected, (state, action) => {
