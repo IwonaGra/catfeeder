@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import App from "./App"; // tu łączę Main z App
-import { theme } from "./theme"; // tu importuję theme z lokalnego pliku
-import { store } from "./store"; // tu łączę się ze store
+import App from "./App";
+import { theme } from "./theme";
+import { store } from "./store"; //  store
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -24,5 +24,3 @@ ReactDOM.createRoot(rootElement).render(
 		</Provider>
 	</React.StrictMode>
 );
-
-// ostylować jeszcze Loading - kiepsko wygląda ... CircularProgress z Mui będzie pasować

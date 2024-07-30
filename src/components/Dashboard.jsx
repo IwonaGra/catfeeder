@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCats } from "../features/catSlice";
@@ -13,11 +13,8 @@ import {
 	CircularProgress,
 	Container,
 	Avatar,
-	// LinearProgress,
 } from "@mui/material";
 import AddCat from "./Cat/AddCat";
-
-// import CatDetails from "./Cat/CatDetail";
 
 const Dashboard = () => {
 	const dispatch = useDispatch();
@@ -34,7 +31,6 @@ const Dashboard = () => {
 		dispatch(fetchCats()); // Odświeża listę kotów po dodaniu nowego
 	};
 
-	// if (loading) return <Typography>Loading...</Typography>;
 	if (loading) return <CircularProgress />;
 	if (error) return <Typography color="error">{error}</Typography>;
 
@@ -60,7 +56,13 @@ const Dashboard = () => {
 					{showAddCatForm ? "Hide Add Cat Form" : "Add New Cat"}
 				</Button>
 
-				{showAddCatForm && <AddCat onAddSuccess={handleAddCatSuccess} />}
+				{showAddCatForm && (
+					<AddCat
+						onAddSuccess={() => {
+							handleAddCatSuccess(); // funkcja handleAddCatSuccess jest przekazywana jako props do komponentu addCat, i ustawia showAddCatForm na false
+						}}
+					/>
+				)}
 
 				{Array.isArray(cats) && cats.length > 0 ? (
 					<Grid container spacing={3}>
@@ -81,12 +83,16 @@ const Dashboard = () => {
 											Age: {cat.age}
 										</Typography>
 										<Typography color="text.secondary">
+											Gender: {cat.gender}
+										</Typography>
+										<Typography color="text.secondary">
+											Breed: {cat.breed}
+										</Typography>
+										<Typography color="text.secondary">
 											Daily Caloric Needs: {cat.calories_need} kcal
 										</Typography>
 									</CardContent>
-									<CardActions>
-										{/* Tu możesz dodać przyciski do edycji, dodawania karmienia itp. */}
-									</CardActions>
+									<CardActions>{/* Przycisk karmienia kota */}</CardActions>
 								</Card>
 							</Grid>
 						))}

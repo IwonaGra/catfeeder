@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // dodana walidacja propsów
 import { useDispatch, useSelector } from "react-redux";
 import { addCat, clearError } from "../../features/catSlice";
 import {
@@ -17,15 +18,17 @@ import {
 import MuiAlert from "@mui/material/Alert";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { uploadPhotoToServer } from "../../utils/uploadPhoto";
+import { supabase } from "../../utils/supabase"; // Import Supabase client
 
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const AddCat = () => {
+// prop onAddSucces przekazywany z Dashboard - zamyka formularz po dodaniu kota
+const AddCat = ({ onAddSuccess }) => {
 	const [name, setName] = useState("");
 	const [age, setAge] = useState("");
-	const [caloricNeeds, setCaloricNeeds] = useState("");
+	const [caloricNeeds, setCaloricNeeds] = useState(0);
 	const [breed, setBreed] = useState("");
 	const [gender, setGender] = useState("");
 	const [photoUrl, setPhotoUrl] = useState("");
@@ -33,33 +36,23 @@ const AddCat = () => {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("error");
+	const [catBreeds, setCatBreeds] = useState([]);
 
-	const dispatch = useDispatch(); //akcje redux
-	const error = useSelector((state) => state.cats.error);
+	const dispatch = useDispatch();
+	const { error } = useSelector((state) => state.cats);
 
-	const catBreeds = [
-		"Domestic Longhair",
-		"Maine Coon",
-		"Siamese",
-		"Persian",
-		"Ragdoll",
-		"British Shorthair",
-		"Bengal",
-		"Sphynx",
-		"Scottish Fold",
-		"Abyssinian",
-		"Devon Rex",
-		"American Shorthair",
-		"Norwegian Forest Cat",
-		"Oriental Shorthair",
-		"Russian Blue",
-		"Birman",
-		"Savannah",
-		"Siberian",
-		"Burmese",
-		"Exotic Shorthair",
-		"Himalayan",
-	];
+	useEffect(() => {
+		const fetchCatBreeds = async () => {
+			const { data, error } = await supabase.from("cat_breeds").select("*");
+			if (error) {
+				console.error("Error fetching cat breeds:", error);
+			} else {
+				setCatBreeds(data);
+			}
+		};
+
+		fetchCatBreeds();
+	}, []);
 
 	useEffect(() => {
 		if (error) {
@@ -71,68 +64,18 @@ const AddCat = () => {
 	}, [error, dispatch]);
 
 	useEffect(() => {
-		if (breed) {
-			switch (breed.toLowerCase()) {
-				case "domestic shorthair":
-					setCaloricNeeds(300);
-					break;
-				case "persian":
-					setCaloricNeeds(300);
-					break;
-				case "siamese":
-					setCaloricNeeds(250);
-					break;
-				case "maine coon":
-					setCaloricNeeds(350);
-					break;
-				case "ragdoll":
-					setCaloricNeeds(300);
-					break;
-				case "british shorthair":
-					setCaloricNeeds(300);
-					break;
-				case "bengal":
-					setCaloricNeeds(250);
-					break;
-				case "sphynx":
-					setCaloricNeeds(300);
-					break;
-				case "abyssinian":
-					setCaloricNeeds(250);
-					break;
-				case "devon rex":
-					setCaloricNeeds(250);
-					break;
-				case "american shorthai":
-					setCaloricNeeds(300);
-					break;
-				case "norwegian forest cat":
-					setCaloricNeeds(350);
-					break;
-				case "oriental shorthair":
-					setCaloricNeeds(230);
-					break;
-				case "russian blue":
-					setCaloricNeeds(230);
-					break;
-				case "birman":
-					setCaloricNeeds(250);
-					break;
-				case "savannah":
-					setCaloricNeeds(350);
-					break;
-				case "siberian":
-					setCaloricNeeds(350);
-					break;
-				case "himalayan":
-					setCaloricNeeds(250);
-					break;
-				default:
-					setCaloricNeeds(200);
-					break;
-			}
+		// zapotrzebowanie kaloryczne na podstawie rasy i płci
+		const breedData = catBreeds.find((b) => b.breed === breed);
+		if (breedData) {
+			setCaloricNeeds(
+				gender === "she"
+					? breedData.caloric_needs_female
+					: breedData.caloric_needs_male
+			);
+		} else {
+			setCaloricNeeds(0);
 		}
-	}, [breed]);
+	}, [breed, gender, catBreeds]);
 
 	const handleAddCat = async (e) => {
 		e.preventDefault();
@@ -164,18 +107,17 @@ const AddCat = () => {
 		try {
 			const addCatResult = await dispatch(addCat(newCat));
 			if (addCat.fulfilled.match(addCatResult)) {
-				//sukces,dodało:
 				setSnackbarMessage("Cat added successfully!");
 				setSnackbarSeverity("success");
 				setOpenSnackbar(true);
-
+				onAddSuccess(); // Ukryj formularz po dodaniu kota
+				// Resetowanie stanu formularza
 				setName("");
 				setAge("");
-				setCaloricNeeds("");
+				setCaloricNeeds(0);
 				setPhotoUrl("");
 				setBreed("");
 				setGender("");
-				setPhotoUrl("");
 				setPhotoFile(null);
 			} else {
 				throw new Error(addCatResult.error.message);
@@ -188,7 +130,10 @@ const AddCat = () => {
 		}
 	};
 
-	const handleCloseSnackbar = () => setOpenSnackbar(false);
+	const handleCloseSnackbar = () => {
+		setOpenSnackbar(false);
+		dispatch(clearError());
+	};
 
 	const handleAgeChange = (e) => {
 		const value = e.target.value;
@@ -211,10 +156,6 @@ const AddCat = () => {
 			onSubmit={handleAddCat}
 			sx={{ "& .MuiTextField-root": { mb: 2 } }}
 		>
-			{/* <Typography variant="h5" gutterBottom sx={{ color: "primary.main" }}>
-				Add New Cat
-			</Typography> */}
-
 			<Box
 				sx={{
 					mb: 2,
@@ -225,12 +166,7 @@ const AddCat = () => {
 			>
 				<Typography
 					variant="h5"
-					sx={{
-						color: "primary.main",
-						mb: 2,
-						mt: 4,
-						textAlign: "center",
-					}}
+					sx={{ color: "primary.main", mb: 2, mt: 4, textAlign: "center" }}
 				>
 					Add New Cat
 				</Typography>
@@ -281,6 +217,7 @@ const AddCat = () => {
 				required
 				inputProps={{ min: 0, max: 100 }}
 			/>
+
 			<FormControl fullWidth margin="normal">
 				<InputLabel id="gender-select-label">Gender</InputLabel>
 				<Select
@@ -288,13 +225,17 @@ const AddCat = () => {
 					id="gender-select"
 					value={gender}
 					label="Gender"
-					onChange={(e) => setGender(e.target.value)}
+					onChange={(e) => {
+						setGender(e.target.value);
+						setCaloricNeeds(0); // reset kalorii gdy zmienia sie płeć
+					}}
 					required
 				>
 					<MenuItem value="she">She</MenuItem>
 					<MenuItem value="he">He</MenuItem>
 				</Select>
 			</FormControl>
+
 			<FormControl fullWidth margin="normal">
 				<InputLabel id="breed-select-label">Breed</InputLabel>
 				<Select
@@ -302,26 +243,28 @@ const AddCat = () => {
 					id="breed-select"
 					value={breed}
 					label="Breed"
-					onChange={(e) => setBreed(e.target.value)}
+					onChange={(e) => {
+						setBreed(e.target.value);
+						setCaloricNeeds(0); // reset kalorii gdy zmienia sie rasa
+					}}
 					required
 				>
 					{catBreeds.map((breed) => (
-						<MenuItem key={breed} value={breed}>
-							{breed}
+						<MenuItem key={breed.id} value={breed.breed}>
+							{breed.breed}
 						</MenuItem>
 					))}
 				</Select>
 			</FormControl>
 
-			<TextField
-				fullWidth
-				label="Caloric Needs"
-				type="number"
-				value={caloricNeeds}
-				onChange={(e) => setCaloricNeeds(e.target.value)}
-				margin="normal"
-				required
-			/>
+			<Box sx={{ display: "flex", alignItems: "center" }}>
+				<Typography variant="subtitle1" sx={{ mr: 2 }}>
+					Caloric Needs:
+				</Typography>
+				<Typography variant="h6" color="primary">
+					{caloricNeeds > 0 ? caloricNeeds : "0"}
+				</Typography>
+			</Box>
 
 			<Button type="submit" variant="contained" sx={{ mt: 2, mb: 4 }}>
 				Add Cat
@@ -337,6 +280,11 @@ const AddCat = () => {
 			</Snackbar>
 		</Box>
 	);
+};
+
+// Zdefiniowana statyczna właściwość propTypes w komponencie AddCat, która określa, że prop onAddSuccess jest wymagany i musi być funkcją
+AddCat.propTypes = {
+	onAddSuccess: PropTypes.func.isRequired,
 };
 
 export default AddCat;

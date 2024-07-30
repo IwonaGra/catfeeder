@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
@@ -15,11 +14,10 @@ const Navbar = () => {
 	};
 
 	return (
-		// zmienić tytuał apki na ładniejszy
 		<AppBar position="static">
 			<Toolbar>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-					Cat Feeder =(o.o)=
+					Cat Feeder
 				</Typography>
 				<Box>
 					{user ? (

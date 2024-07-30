@@ -65,6 +65,21 @@ export const updateCat = createAsyncThunk(
 	}
 );
 
+export const fetchCatBreeds = createAsyncThunk(
+	"cats/fetchCatBreeds",
+	async (_, { rejectWithValue }) => {
+		try {
+			const { data, error } = await supabase
+				.from("cat_breeds") // nazwa tabeli
+				.select("*");
+			if (error) throw error;
+			return data;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 const catSlice = createSlice({
 	name: "cats",
 	initialState: { cats: [], loading: false, error: null },

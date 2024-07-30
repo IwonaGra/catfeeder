@@ -1,21 +1,20 @@
-import React from "react";
 import {
 	BrowserRouter as Router,
 	Route,
 	Routes,
 	Navigate,
 } from "react-router-dom";
-import { Provider } from "react-redux"; //tutaj importuję providera, który dostarcza redux store dla aplikacji
-import { store } from "./store"; // tutaj importuję store
-import { ThemeProvider, CssBaseline, Container, Box } from "@mui/material"; // tutaj importuję podstawowe style dla aplikacji
-import Dashboard from "./components/Dashboard"; // tutaj importuję komponent tablicy "Dashboard"
-import SignIn from "./components/User/SignIn"; // tutaj importuję komponent logowania
-import SignUp from "./components/User/SignUp"; // tutaj importuję komponent rejestracji
+import { Provider } from "react-redux"; //providera, który dostarcza redux store dla aplikacji
+import { store } from "./store";
+import { ThemeProvider, CssBaseline, Container, Box } from "@mui/material"; // style dla aplikacji
+import Dashboard from "./components/Dashboard";
+import SignIn from "./components/User/SignIn";
+import SignUp from "./components/User/SignUp";
 // import CatDetail from "./components/Cat/CatDetail"; // tutaj importuję komponent info o kocie
-import EditCat from "./components/Cat/EditCat"; // tutaj importuję komponent edycji danych kota
-import Navbar from "./components/Navbar"; // tutaj importuję komponent paska nawigacyjnego
-import { Outlet } from "react-router-dom"; // tutaj importuję Outlet
-import { theme } from "./theme"; // tutaj importuję mój theme
+import EditCat from "./components/Cat/EditCat";
+import Navbar from "./components/Navbar";
+import { Outlet } from "react-router-dom";
+import { theme } from "./theme";
 
 // Tutaj dodałam podział layoutu na navbar i outlet
 const Layout = () => (

@@ -69,7 +69,7 @@ const authSlice = createSlice({
 			.addCase(signOut.pending, (state) => {
 				state.loading = true; // wylogowanie w toku
 			})
-			.addCase(signOut.fulfilled, (state, action) => {
+			.addCase(signOut.fulfilled, (state) => {
 				// wylogowanie wykonane
 				state.user = null;
 				state.loading = false;
