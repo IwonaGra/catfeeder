@@ -10,13 +10,12 @@ import { ThemeProvider, CssBaseline, Container, Box } from "@mui/material"; // s
 import Dashboard from "./components/Dashboard";
 import SignIn from "./components/User/SignIn";
 import SignUp from "./components/User/SignUp";
-// import CatDetail from "./components/Cat/CatDetail"; // tutaj importuję komponent info o kocie
-import EditCat from "./components/Cat/EditCat";
+import FeedingHistory from "./components/Feeding/FeedingHistory";
 import Navbar from "./components/Navbar";
 import { Outlet } from "react-router-dom";
 import { theme } from "./theme";
 
-// Tutaj dodałam podział layoutu na navbar i outlet
+// Layout: navbar, outlet
 const Layout = () => (
 	<Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 		<Navbar />
@@ -26,7 +25,6 @@ const Layout = () => (
 	</Box>
 );
 
-// Tutaj dodałam strukturę aplikacji: Provider, Router, themeProvider,CssBaseline + linki do ekranów aplikacji
 const App = () => {
 	return (
 		<Provider store={store}>
@@ -39,9 +37,10 @@ const App = () => {
 						<Route path="/" element={<Layout />}>
 							<Route index element={<Navigate to="/sign-in" replace />} />
 							<Route path="/dashboard" element={<Dashboard />} />
-							{/* <Route path="/cat/:id" element={<CatDetail />} /> */}
-							<Route path="/cat/:id/edit" element={<EditCat />} />
-							{/* <Route index element={<Navigate to="/dashboard" replace />} /> */}
+							<Route
+								path="/cat/:id/feeding-history"
+								element={<FeedingHistory />}
+							/>
 						</Route>
 					</Routes>
 				</ThemeProvider>

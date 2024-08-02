@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"; // import funkcji dispatch i selector z react-redux
 import { signUp } from "../../features/authSlice"; //import slice'u autoryzacji
 import { TextField, Button, Typography, Box, Paper } from "@mui/material"; // import komponentów UI
@@ -38,7 +38,6 @@ const SignUp = () => {
 		>
 			{/* Dodany Paper dla efektu karty */}
 			<Paper elevation={3} sx={{ padding: 4, width: "100%", maxWidth: 400 }}>
-				{/* Dodany nagłówek "CAT FEEDER" z ikoną - do dalszje korekty słabo wygląda */}
 				<Box
 					sx={{
 						display: "flex",

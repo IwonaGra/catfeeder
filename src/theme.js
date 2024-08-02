@@ -6,11 +6,11 @@ export const theme = createTheme({
 			default: "#ffffff",
 		},
 		primary: {
-			main: "#55bde0", //  kolor główny
-			light: "#79d3f2",
+			main: "#4CAF50",
+			light: "#7add87",
 		},
 		secondary: {
-			main: "#88e8e6", // Jasny kolor dodatkowy #79d3f2
+			main: "#88e8e6",
 		},
 	},
 	typography: {
@@ -23,11 +23,12 @@ export const theme = createTheme({
 		MuiButton: {
 			styleOverrides: {
 				root: {
+					backgroundColor: "#FF9800",
 					borderRadius: 20,
 					textTransform: "none",
 					color: "#ffffff",
 					"&:hover": {
-						backgroundColor: "#79d3f2",
+						backgroundColor: "#F57C20",
 					},
 				},
 			},
@@ -37,11 +38,8 @@ export const theme = createTheme({
 				root: {
 					borderRadius: 16, // Zaokrąglone karty
 					boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-					// Delikatny cień
 				},
 			},
 		},
 	},
 });
-
-// Theme zmodyfikować jeszcze!!! themeOptions + pododawać style komponentów

@@ -15,6 +15,7 @@ export const fetchCats = createAsyncThunk(
 		}
 	}
 );
+
 export const addCat = createAsyncThunk(
 	"cats/addCat", //dodaje koty do bazy
 	async (cat, { rejectWithValue }) => {

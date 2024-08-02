@@ -142,8 +142,8 @@ const AddCat = ({ onAddSuccess }) => {
 		}
 	};
 
-	const handlePhotoChange = (event) => {
-		const file = event.target.files[0];
+	const handlePhotoChange = (e) => {
+		const file = e.target.files[0];
 		if (file) {
 			setPhotoFile(file);
 			setPhotoUrl(URL.createObjectURL(file));
